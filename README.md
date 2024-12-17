@@ -28,20 +28,12 @@ Router1(config-if)# exit
 ```
 ![1](https://github.com/Foxbeerxxx/Disaster-recovery-Keepalived/blob/main/img/img1.png)`
 
-4. `Заполните здесь этапы выполнения, если требуется ....`
-5. `Заполните здесь этапы выполнения, если требуется ....`
-6. 
+4. `Заходим на PC0 и начинаем пинговать сервер 192.168.1.50, рвем сеть к роутеру первой группы и включаем режим симуляции`
+![2](https://github.com/Foxbeerxxx/Disaster-recovery-Keepalived/blob/main/img/img2.png)`
 
-```
-Поле для вставки кода...
-....
-....
-....
-....
-```
+![3](https://github.com/Foxbeerxxx/Disaster-recovery-Keepalived/blob/main/img/img3.png)`
 
-`При необходимости прикрепитe сюда скриншоты
-![Название скриншота 1](ссылка на скриншот 1)`
+5. `Как итог переключение отработало.Пакеты побежали по группе второго роутра`
 
 
 ---
