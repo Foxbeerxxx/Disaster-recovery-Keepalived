@@ -52,6 +52,8 @@ sudo systemctl start keepalived
 ```
 
 3. `Проверяю сервисы и добавляю в автозагрузку`
+![4](https://github.com/Foxbeerxxx/Disaster-recovery-Keepalived/blob/main/img/img4.png)`
+
 4. `Редактирую на обоих ВМ conf файл`
 ```
 sudo nano /etc/keepalived/keepalived.conf
@@ -78,6 +80,11 @@ sudo nano /etc/keepalived/keepalived.conf
 ```
 `Содержимое файла yf ppc2`
 ```
+vrrp_script check_webserver {
+    script "/etc/keepalived/check_webserver.sh"
+    interval 3
+    weight -10
+}
 vrrp_instance VI_1 {
         state BACKUP
         interface enp0s8
@@ -91,62 +98,46 @@ vrrp_instance VI_1 {
 
 }
 ```
-6. 
+6. `Записываю скрипт в папку keepalived`
 
 ```
-Поле для вставки кода...
-....
-....
-....
-....
+sudo nano  /etc/keepalived/check_webserver.sh
 ```
+`Содержимое файла`
+```
+#!/bin/bash
 
-`При необходимости прикрепитe сюда скриншоты
-![Название скриншота 2](ссылка на скриншот 2)`
+WEB_SERVER_IP="127.0.0.1"
+WEB_SERVER_PORT="80"
+INDEX_FILE="/var/www/html/index.html"
 
+# Проверка доступности порта
+if ! nc -z $WEB_SERVER_IP $WEB_SERVER_PORT; then
+    exit 1
+fi
 
----
+# Проверка существования файла index.html
+if [[ ! -f $INDEX_FILE ]]; then
+    exit 1
+fi
 
-### Задание 3
-
-`Приведите ответ в свободной форме........`
-
-1. `Заполните здесь этапы выполнения, если требуется ....`
-2. `Заполните здесь этапы выполнения, если требуется ....`
-3. `Заполните здесь этапы выполнения, если требуется ....`
-4. `Заполните здесь этапы выполнения, если требуется ....`
-5. `Заполните здесь этапы выполнения, если требуется ....`
-6. 
+exit 0
 
 ```
-Поле для вставки кода...
-....
-....
-....
-....
-```
-
-`При необходимости прикрепитe сюда скриншоты
-![Название скриншота](ссылка на скриншот)`
-
-### Задание 4
-
-`Приведите ответ в свободной форме........`
-
-1. `Заполните здесь этапы выполнения, если требуется ....`
-2. `Заполните здесь этапы выполнения, если требуется ....`
-3. `Заполните здесь этапы выполнения, если требуется ....`
-4. `Заполните здесь этапы выполнения, если требуется ....`
-5. `Заполните здесь этапы выполнения, если требуется ....`
-6. 
+7. `Перезапускаю сервис Keepalived`
 
 ```
-Поле для вставки кода...
-....
-....
-....
-....
+sudo systemctl restart keepalived
 ```
+`Смотрим, что получилось, на двух машинах забиваем ip a`
+![5](https://github.com/Foxbeerxxx/Disaster-recovery-Keepalived/blob/main/img/img5.png)`
 
-`При необходимости прикрепитe сюда скриншоты
-![Название скриншота](ссылка на скриншот)`
+`Плавающий ip находится на Мастере`
+8. `Останавливаю службу nginx`
+```
+sudo systemctl stop nginx
+```
+9. `Плавающий IP уходит на Backup`
+
+![6](https://github.com/Foxbeerxxx/Disaster-recovery-Keepalived/blob/main/img/img6.png)`
+
