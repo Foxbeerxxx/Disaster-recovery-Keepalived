@@ -133,6 +133,7 @@ sudo systemctl restart keepalived
 ![5](https://github.com/Foxbeerxxx/Disaster-recovery-Keepalived/blob/main/img/img5.png)`
 
 `Плавающий ip находится на Мастере`
+
 8. `Останавливаю службу nginx`
 ```
 sudo systemctl stop nginx
