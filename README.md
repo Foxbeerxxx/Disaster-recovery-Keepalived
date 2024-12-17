@@ -60,6 +60,11 @@ sudo nano /etc/keepalived/keepalived.conf
 ```
 `Содержимое файла yf ppc1`
 ```
+vrrp_script check_webserver {
+    script "/etc/keepalived/check_webserver.sh"
+    interval 3
+    weight -10
+}
 vrrp_instance VI_1 {
         state MASTER
         interface enp0s8
