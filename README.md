@@ -6,7 +6,6 @@
 
 ### Задание 1
 
-`Приведите ответ в свободной форме........`
 
 1. `Скачиваем готовый стенд `
 2. `Заходим в интерфейс роутера 2`
@@ -40,13 +39,58 @@ Router1(config-if)# exit
 
 ### Задание 2
 
-`Приведите ответ в свободной форме........`
 
-1. `Заполните здесь этапы выполнения, если требуется ....`
-2. `Заполните здесь этапы выполнения, если требуется ....`
-3. `Заполните здесь этапы выполнения, если требуется ....`
-4. `Заполните здесь этапы выполнения, если требуется ....`
-5. `Заполните здесь этапы выполнения, если требуется ....`
+
+1. `Запускаю две виртуальные машины ppc1 - 192.168.1.10 и ppc2 - 192.168.1.5`
+2. `На каждую ммашину насчинаю устанавливать необзодимые сервисы `
+```
+sudo apt update
+sudo apt install keepalived
+sudo apt install nginx
+sudo systemctl start nginx
+sudo systemctl start keepalived
+```
+
+3. `Проверяю сервисы и добавляю в автозагрузку`
+4. `Редактирую на обоих ВМ conf файл`
+```
+sudo nano /etc/keepalived/keepalived.conf
+```
+`Содержимое файла yf ppc1`
+```
+vrrp_instance VI_1 {
+        state MASTER
+        interface enp0s8
+        virtual_router_id 15
+        priority 255
+        advert_int 1
+
+        virtual_ipaddress {
+              192.168.111.15/24
+        }
+
+}
+```
+
+5. `Редактирую на обоих ВМ conf файл`
+```
+sudo nano /etc/keepalived/keepalived.conf
+```
+`Содержимое файла yf ppc2`
+```
+vrrp_instance VI_1 {
+        state BACKUP
+        interface enp0s8
+        virtual_router_id 15
+        priority 255
+        advert_int 1
+
+        virtual_ipaddress {
+              192.168.111.15/24
+        }
+
+}
+```
 6. 
 
 ```
